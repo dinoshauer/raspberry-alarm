@@ -6,6 +6,9 @@ MPD server.
 
 Read more here: http://mackwerk.dk/posts/weekend-project-spotify-alarm-clock-part-1/
 
+# Installation
+
+Clone this repo, create a virtualenv and `pip install -r requirements.txt`
 
 # Documentation
 
