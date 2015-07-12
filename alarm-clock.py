@@ -35,10 +35,12 @@ def play(playlist):
             client.play()
         except CommandError as exc_info:
             print('Could not load playlist', exc_info)
+            client.disconnect()
             return False
     else:
         print('No playlist specified, using current playlist')
         client.play()
+    client.disconnect()
     return True
 
 

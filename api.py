@@ -34,9 +34,10 @@ def get_alarms():
 
 
 @app.route('/playlists', methods=['GET'])
-def get_playlists():
+def get_playlists():    
     client.connect('localhost', 6600)
     playlists = [item['playlist'] for item in client.listplaylists()]
+    client.disconnect()
     return jsonify({'playlists': playlists})
 
 
