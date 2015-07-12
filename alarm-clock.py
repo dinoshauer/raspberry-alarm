@@ -46,6 +46,7 @@ def play(playlist):
 
 def main():
     global CACHE
+    print('Starting alarm-clock')
 
     while True:
         now = datetime.datetime.now()
