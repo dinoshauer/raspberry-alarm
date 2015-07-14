@@ -1,9 +1,20 @@
-import time
 import datetime
+import logging
+import sys
+import time
 
 from mpd import MPDClient, CommandError, ConnectionError
 
 from utils import get_db
+
+
+_handler = logging.StreamHandler(sys.stdout)
+_format = logging.Formatter('[%(asctime)s] [%(levelname)s]: %(message)s')
+_handler.setFormatter(_format)
+
+LOGGER = logging.getLogger()
+LOGGER.setLevel(logging.INFO)
+LOGGER.addHandler(_handler)
 
 CACHE = {}
 
@@ -34,11 +45,11 @@ def play(playlist):
             client.load(playlist)
             client.play()
         except CommandError as exc_info:
-            print('Could not load playlist', exc_info)
+            LOGGER.error('Could not load playlist', exc_info)
             client.disconnect()
             return False
     else:
-        print('No playlist specified, using current playlist')
+        LOGGER.warn('No playlist specified, using current playlist')
         client.play()
     client.disconnect()
     return True
@@ -46,7 +57,7 @@ def play(playlist):
 
 def main():
     global CACHE
-    print('Starting alarm-clock')
+    LOGGER.info('Starting alarm-clock')
 
     while True:
         now = datetime.datetime.now()
