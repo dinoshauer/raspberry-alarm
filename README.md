@@ -1,10 +1,10 @@
-Rasperry Alarm
-==============
+Raspberry Alarm
+===============
 
 A little script and an API to create an alarm clock that plays music from an
 MPD server.
 
-Read more here: http://mackwerk.dk/posts/weekend-project-spotify-alarm-clock-part-1/
+Read more here: http://mackwerk.dk/posts/weekend-project-spotify-alarm-clock-part-2/
 
 # Installation
 
@@ -19,6 +19,7 @@ Add entries to the database:
     curl -XPOST http://0.0.0.0:5000/ -H "Content-Type:application/json" -d '
     {
       "playlist": "foo",
+      "timeout": 120,
       "days": [
          {"day": "mon", "time": "06:00"},
          {"day": "sun", "time": "20:00"}
@@ -38,6 +39,7 @@ Get current entries from database:
         "tue": null,
         "wed": null
       },
+      "timeout": 120
       "playlist": "foo"
     }
 

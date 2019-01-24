@@ -16,6 +16,7 @@ def create_alarms():
 
     try:
         db['playlist'] = data.get('playlist')
+        db['timeout'] = data.get('timeout')
         for entry in data['days']:
             day = entry['day']
             time_str = entry['time']
