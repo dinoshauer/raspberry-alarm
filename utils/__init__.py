@@ -9,6 +9,7 @@ def get_db(path='db.json'):
     else:
         db = {
             'playlist': None,
+            'timeout': None,
             'days': {
                 'mon': None,
                 'tue': None,
