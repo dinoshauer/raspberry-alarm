@@ -54,6 +54,20 @@ def play(playlist):
     client.disconnect()
     return True
 
+def stop():
+    client = MPDClient()
+    client.connect('localhost', 6600)
+
+    try:
+        client.stop()
+    except CommandError as exc_info:
+        LOGGER.error('Could not stop MPD', exc_info)
+        client.disconnect()
+        return False
+
+    client.disconnect()
+    return True
+
 
 def main():
     global CACHE
@@ -65,6 +79,7 @@ def main():
 
         db = get_db()
         playlist = db['playlist']
+        timeout_min = db['timeout']
         alarm_str = db['days'][today]
         
         if alarm_str is not None:
@@ -74,11 +89,14 @@ def main():
 
             dt = datetime.datetime.combine(now, alarm_hour)
 
-            if not CACHE.get(dt, False):
-                if dt <= now:
+            if dt + datetime.timedelta(minutes=timeout_min) >= now:
+                if not CACHE.get(dt, False):
                     res = play(playlist)
                     if res:
                         CACHE[dt] = True
+            else:
+                LOGGER.info('Timeout, stopping alarm-clock')
+                res = stop()
 
         CACHE = trim_cache(CACHE)
         time.sleep(60)
